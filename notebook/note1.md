@@ -6,4 +6,4 @@
 - Por convencao usamos PascalCase para nomes das classes
 
 ## WIDGETS
-ttk widgets = visualiza de forma mais maderna
+ttk widgets = visualiza de forma mais moderna
