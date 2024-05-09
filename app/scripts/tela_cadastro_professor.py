@@ -1,32 +1,38 @@
+import os
+import sqlite3
 from tkinter import *
 from tkinter import ttk, messagebox
-
-class CadastroEstudante:
+from PIL import ImageTk, Image
+from uuid import uuid4
+class CadastroProfessor:
     
-    db_name = "app/data/database.db"
+    db_name = "data/database.db"
     
     def __init__(self, root):
         self.root = root
-        self.root.geometry("500x700")
-        self.root.title("Cadastrar Estudante")
+        self.root.geometry("500x500")
+        self.root.title("Cadastrar PROFESSORES")
         self.root.resizable(False, False)
         self.root.config(bg="#fff", bd=10)
         
         # Titulo da pagina
-        title_page = Label(root, text="AppLab Estudantes", fg="ORANGE", font=("Comic Sans", 13, "bold"), pady=5)
+        title_page = Label(root, text="AppLab PROFESSORES", fg="ORANGE", font=("Comic Sans", 13, "bold"), pady=5)
         title_page.pack()
 
         # Carregar logo da App
-        self.logo = PhotoImage(file="assets/images/logo.png")
-        label_imagen = Label(root, image=self.logo)
+        imagen_registro = Image.open("assets/images/logo.png")
+        nova_imagem = imagen_registro.resize((40,40))
+        render = ImageTk.PhotoImage(nova_imagem)
+        label_imagen = Label(root, image=render)
+        label_imagen.image = render
         label_imagen.pack(pady=5)
         
         # Marco
-        marco = LabelFrame(root, text="dados del Alumno", font=("Roboto", 10, "bold"))
+        marco = LabelFrame(root, text="dados do PROFESSOR", font=("Roboto", 10, "bold"))
         marco.config(bd=2, pady=5)
         marco.pack()
 
-        # Formulário Cadastro de Estudantes
+        # Formulário Cadastro de PROFESSORES
         label_email_institucional = Label(marco, text="Email Institucional: ", font=("Comic Sans", 10, "bold"))
         label_email_institucional.grid(row=0, column=0, sticky='e', padx=5, pady=8)
         self.email_institucional = Entry(marco, width=25)
@@ -109,19 +115,55 @@ class CadastroEstudante:
         if self.password.get() == self.repetir_password.get():
             return True
         else:
-            messagebox.showerror("⚠️ATENÇÃO ERRO NAS SENHAS", "As senhas não são iguais. Tente novamente.")
-            return False
+            messagebox.showerror("⚠️ATENÇÃO ERRO DE SENHA", "As senhas inseridas não coincidem")
+            return False  
+
+    def validar_email_institucional(self):
+        email_institucional = self.email_institucional.get()
+        # Adicione a função Buscar_email_institucional aqui se necessário
+        dado = False  # A função Buscar_email_institucional ainda não está definida, então apenas defina dado como False temporariamente
+        if not dado:
+            return True
+        else:
+            messagebox.showerror("⚠️ATENÇÃO ERRO DE E-MAIL INSTITUCIONAL", "Email institucional para ESTUDANTE é inválido")
+            return False  
     
     def registrar_estudante(self):
-        if self.validar_formulario_completo():
-            if self.validar_password():
-                query = 'INSERT INTO usuarios (email_institucional, username, password, question_recovery, answer_recovery) VALUES (?, ?, ?, ?, ?)'
-                parameters = (self.email_institucional.get(), self.username.get(), self.password.get(), self.recovery_question.get(), self.recovery_answer.get())
-                self.executar_consulta(query, parameters)
-                messagebox.showinfo("✅ CADASTRO REALIZADO", "Cadastro Realizado com Sucesso!")
-                self.limpar_formulario()
-                self.pagina_login_estudante()
+        if self.validar_formulario_completo() and self.validar_password() and self.validar_email_institucional():
+            # Gerar um UUID4 para o id_usuario
+            id = str(uuid4())
+            role="PROFESSORES"
+            # Query para inserir dados na tabela
+            query = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)'
+            parameters = (id, 
+                          self.email_institucional.get(), 
+                          self.username.get(), 
+                          self.password.get(), 
+                          self.recovery_question.get(), 
+                          self.recovery_answer.get(),
+                          role)
+            
+            # Executar a consulta
+            self.executar_consulta(query, parameters)
+            
+            messagebox.showinfo("PROFESSOR CADASTRADO", f"""
+                                Username: {self.username.get()}
+                                Email institucional: {self.email_institucional.get()}
+                                Senha: {self.password.get()}
+                                Recuperação: {self.recovery_question.get()}
+                                Resposta: {self.recovery_answer.get()}                       
+                                """)
+            print('USUARIO CRIADO')
+            self.limpar_formulario()
 
-root = Tk()
-app = CadastroEstudante(root)
-root.mainloop()
+
+
+def tela_cadastro_professor():
+    root = Tk()
+    app = CadastroProfessor(root)
+    root.mainloop()
+    
+    
+# tela_cadastro_estudante()
+# tela_cadastro_admin()
+# tela_cadastro_professor()
