@@ -65,8 +65,6 @@ class TelaLogin(tk.Frame):
         input_password = self.entry_password.get()
         consulta1 = f"SELECT id, email_institucional, password, role FROM usuarios WHERE email_institucional = '{input_email_institucional}' AND password = '{input_password}'"
         return self.executar_consulta(consulta1)
-
-    def executar_consulta2(self):
         
 
     def loguear(self):

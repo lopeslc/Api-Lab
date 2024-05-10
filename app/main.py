@@ -1,7 +1,5 @@
 import tkinter as tk
-from scripts.tela_inicial import TelaInicial
-from scripts.tela_login import TelaLogin
-from scripts.tela_cadastro_aluno import CadastroEstudante
+from  scripts.tela_inicial import TelaInicial
 
 def main():
     root = tk.Tk()

@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import ImageTk, Image
-from scripts.cadastros import CadastroEstudante
+from scripts.tela_cadastro_aluno import CadastroEstudante
 from scripts.tela_login import TelaLogin
 
 class TelaInicial(tk.Frame):

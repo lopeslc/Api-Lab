@@ -317,6 +317,8 @@ SELECT * FROM questoes_choice ORDER BY updated_at DESC LIMIT 10;
 
 SELECT * FROM usuarios
 INNER JOIN usuario_estudante
-ON usuarios.id
+ON usuario_estudante.usuario_id = usuarios.id
 WHERE usuario_estudante.usuario_id
 ;
+
+SELECT * FROM score_total;
