@@ -321,4 +321,4 @@ ON usuario_estudante.usuario_id = usuarios.id
 WHERE usuario_estudante.usuario_id
 ;
 
-SELECT * FROM score_total;
+SELECT * FROM usuarios;

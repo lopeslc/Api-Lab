@@ -3,6 +3,8 @@ from PIL import ImageTk, Image
 import sqlite3
 import os
 from tkinter import messagebox
+from scripts.tela_profile import TelaProfile
+
 class TelaLogin(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -24,7 +26,7 @@ class TelaLogin(tk.Frame):
         self.render = ImageTk.PhotoImage(resized_image)
         self.label_image = tk.Label(self.frame, image=self.render, bg="orange")
         self.label_image.image = self.render
-        self.label_image.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+        self.label_image.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
         self.label_email = tk.Label(self.frame, text="Email Institucional:", font=("Poppins", 12), bg="orange", fg="white")
         self.label_email.place(relx=0.3, rely=0.5, anchor=tk.CENTER)
@@ -48,10 +50,6 @@ class TelaLogin(tk.Frame):
             return False
         return True
 
-    def validar_conta(self):
-        input_email_institucional = self.entry_email.get() 
-        input_password = self.entry_password.get()
-
     def executar_consulta(self, query, parameters=()):
         # Conectar-se ao banco de dados e executar a consulta
         with sqlite3.connect(self.db_name) as conn:
@@ -59,28 +57,22 @@ class TelaLogin(tk.Frame):
             result = cursor.execute(query, parameters)
             conn.commit()
         return result
-    
-    def executar_consulta1(self):
-        input_email_institucional = self.entry_email.get() 
-        input_password = self.entry_password.get()
-        consulta1 = f"SELECT id, email_institucional, password, role FROM usuarios WHERE email_institucional = '{input_email_institucional}' AND password = '{input_password}'"
-        return self.executar_consulta(consulta1)
-        
 
     def loguear(self):
         if self.validar_formulario_completo():
             result = self.executar_consulta1()
             if result:
-                if result[0][2] == 'ESTUDANTES':
-                    messagebox.showinfo("Login", "Login efetuado com sucesso!")
-                    self.master.destroy()
-                elif result[0][2] == 'ADMINISTRADORES':
-                    messagebox.showinfo("Login", "Login efetuado com sucesso!")
-                    self.master.destroy()
-                elif result[0][2] == 'PROFESSORES':
-                    messagebox.showinfo("Login", "Login efetuado com sucesso!")
-                    self.master.destroy()
-                else:
-                    messagebox.showerror("Erro", "Email ou senha inválidos. Tente novamente.")
+                email_institucional = self.entry_email.get()
+                messagebox.showinfo("Login", "Login efetuado com sucesso!")
+                self.master.destroy()
+                # Switch to TelaProfile upon successful login
+                tela_profile = TelaProfile(email_institucional=email_institucional)
+                tela_profile.pack(fill=tk.BOTH, expand=True)
             else:
                 messagebox.showerror("Erro", "Email ou senha inválidos. Tente novamente.")
+
+    def executar_consulta1(self):
+        input_email_institucional = self.entry_email.get()
+        input_password = self.entry_password.get()
+        consulta1 = f"SELECT id, email_institucional, password, role FROM usuarios WHERE email_institucional = '{input_email_institucional}' AND password = '{input_password}'"
+        return self.executar_consulta(consulta1)
