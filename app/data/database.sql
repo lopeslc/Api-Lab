@@ -323,5 +323,15 @@ WHERE usuario_estudante.usuario_id
 
 SELECT * FROM usuarios;
 
+SELECT *
+FROM usuarios
+INNER JOIN usuario_estudante
+    ON usuario_estudante.usuario_id = usuarios.id
+RIGHT JOIN score_total
+    ON score_total.usuario_id_estudante = usuario_estudante.id
+WHERE usuario_estudante.is_active = 1
+ORDER BY score_total.total_score DESC;
 
-SELECT * FROM questoes_verdadeiro_ou_falso;
+
+
+SELECT * FROM usuario_estudante;
