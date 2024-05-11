@@ -322,3 +322,6 @@ WHERE usuario_estudante.usuario_id
 ;
 
 SELECT * FROM usuarios;
+
+
+SELECT * FROM questoes_verdadeiro_ou_falso;
