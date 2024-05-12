@@ -287,6 +287,63 @@ CREATE TABLE questoes_verdadeiro_ou_falso(
     FOREIGN KEY (fase_jogo_id) REFERENCES fase_jogo (id)
 );
 
+INSERT INTO questoes_verdadeiro_ou_falso(
+    id,
+    enunciado,
+    is_correta,
+    explicacao,
+    usuario_professor_id,
+    fase_jogo_id
+) VALUES(
+    "24cebab1-3e97-4c63-8bbd-11695586578d",
+    "A AIDS é uma DST (Doença Sexualmente Transmissível).",
+    1,
+    "Verdadeira. A AIDS pode ser contraída por contato sexual.",
+    1,
+    1
+),
+(
+    "f9febab1-3e97-4c63-8f1d-11695506578d",
+    "O vetor Aedes aegypti é o responsável pela transmissão da dengue através da sua picada.",
+    1,
+    "Verdadeiro. O mosquito Aedes aegypti é o principal vetor da dengue.",
+    1,
+    1
+),
+(
+    "d8a08ad9-1e47-445d-9f8a-b3d83fb57495",
+    "A AIDS pode ser transmitida por compartilhar copos e talheres.",
+    0,
+    "Falso. A AIDS não é transmitida por compartilhar copos e talheres. Os mecanismos de transmissão incluem contato sexual, transmissão sanguínea, compartilhamento de seringas e agulhas, e de mãe para filho durante o parto ou amamentação.",
+    1,
+    1
+),
+(
+    "b0ced968-5f2f-4795-b3e0-01382b314a16",
+    "(UFJF) A AIDS (síndrome da imunodeficiência adquirida) é uma doença que ataca o sistema imunológico através da destruição dos linfócitos T. Em consequência, pessoas contaminadas com o vírus HIV tornam-se altamente suscetíveis a diversas infecções que seriam normalmente suprimidas por aquele sistema. A importância do linfócito T para o organismo está no fato de: c) ativar outros linfócitos e destruir células infectadas. A afirmação anterior é CORRETA.",
+    1,
+    "Os linfócitos T são importantes para ativar outros linfócitos e destruir células infectadas, contribuindo para a resposta imune do organismo.",
+    1,
+    1
+),
+(
+    "208888f4-ef4b-498f-9964-5e2ff5a86dd4",
+    "A gangrena gasosa é uma infecção rara causada por bactérias que desencadeiam a necrose do tecido. O nome do gênero do bacilo causador da gangrena gasosa é Clostridium.",
+    1,
+    "Verdadeiro. A gangrena gasosa é causada por bactérias do gênero Clostridium.",
+    1,
+    1
+),
+(
+    "98b9d3b3-dca5-4058-821a-63aa83db4376",
+    "A gastrenterite é o nome dado a um grupo de infecções do aparelho digestório que desencadeia problemas como diarreia, vômitos e febres. Essa doença, também conhecida como “diarreia do viajante”, pode ser causada pela bactéria Escherichia coli, que é transmitida através de alimentos e água contaminados por fezes de pacientes.",
+    1,
+    "Verdadeiro. A Escherichia coli pode ser transmitida através de alimentos e água contaminados, causando gastrenterite.",
+    1,
+    1
+);
+
+
 
 SELECT * FROM usuarios;
 
@@ -332,6 +389,14 @@ RIGHT JOIN score_total
 WHERE usuario_estudante.is_active = 1
 ORDER BY score_total.total_score DESC;
 
-
+SELECT usuarios.id, usuarios.email_institucional, usuarios.username, score_total.total_score
+                    FROM usuarios
+                    INNER JOIN usuario_estudante
+                        ON usuario_estudante.usuario_id = usuarios.id
+                    RIGHT JOIN score_total
+                        ON score_total.usuario_id_estudante = usuario_estudante.id
+                    WHERE usuario_estudante.is_active = 1
+                    ORDER BY score_total.total_score DESC; 
 
 SELECT * FROM usuario_estudante;
+SELECT * FROM questoes_verdadeiro_ou_falso ORDER BY updated_at DESC LIMIT 5;

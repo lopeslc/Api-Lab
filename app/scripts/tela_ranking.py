@@ -106,7 +106,9 @@ class TelaRanking(tk.Frame):  # Modificando para herdar de tk.Frame
             self.table.insert(END, f"{email_institucional:<25} {username:<15} {total_score:<10}")
 
 
-root = Tk()
-app = TelaRanking(root)  # Passando a raiz como argumento
-app.pack(fill="both", expand=True)  # Expandindo o widget para preencher a janela
-app.mainloop()
+def mostrar_ranking():
+    root = Tk()
+    
+    app = TelaRanking(root)  # Passando a raiz como argumento
+    app.pack(fill="both", expand=True)  # Expandindo o widget para preencher a janela
+    app.mainloop()
